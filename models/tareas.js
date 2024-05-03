@@ -43,19 +43,24 @@ class Tareas {
     }
 
     listadoCompleto(){
-        
+
         console.log();
         this.listadoArreglo.forEach( (tarea, i) => {
 
             
-            const indice = `${i + 1}`.yellow;
+            const idx = `${i + 1}`.green;
 
             //Desestructuración
-            const { desc, fecha } = tarea;
+            const { descripcion, fecha } = tarea;
 
-            const estado = ( fecha ) ? 'Completada'.green : 'Pendiente'.red;
 
-            console.log(`${indice} ${desc} :: ${estado}`);
+            const estado = ( fecha ) 
+                                ? 'Completada'.green
+                                : 'Pendiente'.red;
+
+
+
+            console.log(`${ idx } ${ descripcion } :: ${ estado }`);
             
         });
     }
