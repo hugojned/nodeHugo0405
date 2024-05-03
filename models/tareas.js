@@ -28,10 +28,36 @@ class Tareas {
         this._listado = {};
     }
 
+
+    cargarTareasDesdeArreglo( tareas = [] ){
+
+        tareas.forEach( tarea =>{
+            this._listado[tarea.id] = tarea;
+        });
+    }
+
     crearTarea( desc = '' ){
         const tarea = new Tarea(desc);
 
         this._listado[tarea.id] = tarea;
+    }
+
+    listadoCompleto(){
+        
+        console.log();
+        this.listadoArreglo.forEach( (tarea, i) => {
+
+            
+            const indice = `${i + 1}`.yellow;
+
+            //Desestructuración
+            const { desc, fecha } = tarea;
+
+            const estado = ( fecha ) ? 'Completada'.green : 'Pendiente'.red;
+
+            console.log(`${indice} ${desc} :: ${estado}`);
+            
+        });
     }
 
 }

@@ -1,10 +1,9 @@
 require('colors');
 
-
-
 const Tareas = require('./models/tareas');
 //const Tarea = require('./models/tarea');
 
+const { saveDB, readDB } = require('./helpers/guardarArchivo');
 const { inquirerMenu,
         pausa,
         leerInput } = require('./helpers/inquirer');
@@ -27,7 +26,16 @@ const main = async() => {
 
     //opcion del menú
     let opt = '';
+
+    //Constante de objeto de tareas
     const tareas = new Tareas();
+
+    const tareasDB = readDB();
+
+    if( tareasDB ) {
+        //Cargar las tareas
+        tareas.cargarTareasDesdeArreglo( tareasDB );
+    }
 
     do{
         opt = await inquirerMenu();
@@ -42,9 +50,13 @@ const main = async() => {
             break;
 
             case '2':
-                console.log(tareas.listadoArreglo);
+                //console.log(tareas.listadoArreglo);
+                tareas.listadoCompleto();
+                
             break;
         }
+
+        saveDB(tareas.listadoArreglo);
 
         await pausa();
         
