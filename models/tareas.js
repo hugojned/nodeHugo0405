@@ -4,6 +4,7 @@
  */
 
 const Tarea = require('./tarea');
+require('colors');
 
 class Tareas {
 
@@ -62,6 +63,68 @@ class Tareas {
 
             console.log(`${ idx } ${ descripcion } :: ${ estado }`);
             
+        });
+    }
+
+
+    listarPendientesCompletadas( completadas = true ){
+        console.log();
+
+        let cont = 0;
+        
+        this.listadoArreglo.forEach( tarea => {
+
+            //Desestructuración
+            const { descripcion, fecha } = tarea;
+
+            const estado = ( fecha ) 
+                                ? 'Completada'.green
+                                : 'Pendiente'.red;
+
+
+            if ( completadas ){
+                //Mostrar completadas
+                if ( fecha ) {
+                    cont += 1;
+                    console.log(`${ ( cont + '.' ).green } ${ descripcion } :: ${ ( fecha + '' ).green  } `);
+                }
+
+            } else {
+                //Mostrar pendientes
+                if ( !fecha ) {
+                    cont += 1;
+                    console.log(`${ ( cont + '.' ).green } ${ descripcion } :: ${ estado }`);
+                }
+            }
+            
+        });
+    }
+
+    borrarTarea( id = '' ) {
+
+        if ( this._listado[id] ) {
+            delete this._listado[id];
+        }
+
+    }
+
+    toggleCompletadas( ids = [] ) {
+
+        ids.forEach( id => {
+
+            let tarea = this._listado[id];
+            if ( !tarea.fecha ) {
+                tarea.fecha = new Date().toISOString()
+            }
+
+        });
+
+        this.listadoArreglo.forEach( tarea => {
+
+            if ( !ids.includes(tarea.id) ) {
+                this._listado[tarea.id].fecha = null;
+            }
+
         });
     }
 
